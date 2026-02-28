@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
@@ -68,7 +68,7 @@
     #topBar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       padding: 18px 20px 10px;
     }
 
@@ -80,22 +80,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    #topBar .upload-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text-sub);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    #topBar .upload-btn:hover { background: var(--surface); color: var(--purple-lt); border-color: var(--purple); }
 
     /* ─── Now Playing Panel ─── */
     #nowPlaying {
@@ -208,37 +192,63 @@
       width: 100%;
       text-align: center;
       margin-bottom: 6px;
+      padding: 0 8px;
     }
 
     .track-title-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
       width: 100%;
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+
+    /* marquee 容器 */
+    .marquee {
+      width: 90%;
+      display: flex;
+    }
+
+    /* 動畫版：文字從右入、往左出 */
+    .marquee #trackName {
+      animation: marqueeScroll 10s linear infinite;
+      animation-delay: 0.5s;
+      min-width: 100%;
+    }
+
+    /* 停止動畫（暫停或短歌名） */
+    .no-animation #trackName {
+      animation: none;
+      transform: translateX(0);
+    }
+
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(100%); }
+      10%  { transform: translateX(100%); }
+      90%  { transform: translateX(-120%); }
+      100% { transform: translateX(-120%); }
     }
 
     #trackName {
       display: inline-block;
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 800;
       color: var(--text-main);
       white-space: nowrap;
-    }
-
-    #trackName.scrolling {
-      animation: titleScroll 8s linear infinite;
-      animation-delay: 0.5s;
-    }
-
-    @keyframes titleScroll {
-      0%   { transform: translateX(100%); }
-      10%  { transform: translateX(100%); }
-      90%  { transform: translateX(-110%); }
-      100% { transform: translateX(-110%); }
+      letter-spacing: 0.01em;
     }
 
     #trackArtist {
       font-size: 13px;
       color: var(--text-sub);
-      margin-top: 3px;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 16px;
+      opacity: 0.8;
     }
 
     /* ─── Progress Bar ─── */
@@ -250,7 +260,7 @@
 
     #progressContainer {
       width: 100%;
-      height: 5px;
+      height: 6px;
       background: rgba(255,255,255,0.12);
       border-radius: 99px;
       position: relative;
@@ -324,8 +334,8 @@
     .ctrl-btn.secondary i { font-size: 22px; }
 
     #playPauseButton {
-      width: 64px;
-      height: 64px;
+      width: 72px;
+      height: 72px;
       background: linear-gradient(135deg, var(--purple), var(--pink));
       border: none;
       border-radius: 50%;
@@ -333,14 +343,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 24px rgba(168,85,247,0.5);
+      box-shadow: 0 6px 28px rgba(168,85,247,0.55);
       transition: var(--transition);
       color: #fff;
     }
 
-    #playPauseButton i { font-size: 24px; }
-    #playPauseButton:hover { transform: scale(1.07); box-shadow: 0 8px 32px rgba(168,85,247,0.7); }
-    #playPauseButton:active { transform: scale(0.96); }
+    #playPauseButton i { font-size: 26px; }
+    #playPauseButton:hover { transform: scale(1.07); box-shadow: 0 8px 36px rgba(168,85,247,0.75); }
+    #playPauseButton:active { transform: scale(0.94); }
 
     /* Volume */
     #volumeArea {
@@ -412,34 +422,37 @@
     /* ─── Mode Buttons ─── */
     #modeArea {
       width: 100%;
-      padding: 4px 24px 8px;
+      padding: 2px 24px 10px;
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .mode-btn {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
+      justify-content: center;
+      gap: 5px;
+      padding: 9px 13px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       color: var(--text-dim);
       font-size: 12px;
       font-family: inherit;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
+      flex: 1;
     }
 
     .mode-btn i { font-size: 13px; }
     .mode-btn:hover { background: var(--surface2); color: var(--text-sub); }
     .mode-btn.active {
-      background: rgba(168,85,247,0.2);
+      background: rgba(168,85,247,0.22);
       border-color: var(--purple);
       color: var(--purple-lt);
+      box-shadow: 0 0 12px rgba(168,85,247,0.2);
     }
 
     /* ─── Bottom Panel ─── */
@@ -447,26 +460,26 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin: 8px 12px 12px;
-      background: var(--surface);
+      margin: 6px 14px 14px;
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
       min-height: 240px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
     }
 
     #tabBar {
       display: flex;
       border-bottom: 1px solid var(--border);
-      padding: 4px 8px 0;
+      padding: 6px 10px 0;
       gap: 4px;
       flex-shrink: 0;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 10px 0;
+      padding: 12px 0;
       background: none;
       border: none;
       color: var(--text-dim);
@@ -479,7 +492,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
+      letter-spacing: 0.02em;
     }
 
     .tab-btn i { font-size: 13px; }
@@ -513,11 +527,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
       cursor: pointer;
       transition: var(--transition);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       font-size: 13px;
       color: var(--text-sub);
     }
@@ -562,12 +576,12 @@
 
     .action-btn {
       flex: 1;
-      padding: 9px;
+      padding: 11px;
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 12px;
       color: var(--text-sub);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       font-family: inherit;
       cursor: pointer;
@@ -579,7 +593,7 @@
     }
 
     .action-btn:hover { background: rgba(168,85,247,0.15); color: var(--purple-lt); border-color: var(--purple); }
-    .action-btn.danger:hover { background: rgba(244,63,94,0.15); color: #fb7185; border-color: #fb7185; }
+    #clearBtn { flex: 0 0 auto; padding: 11px 20px; }
 
     /* ─── Lyrics Panel ─── */
     #lyricsContainer {
@@ -640,7 +654,6 @@
   <!-- Top Bar -->
   <div id="topBar">
     <div class="logo"><i class="fas fa-music" style="margin-right:6px;"></i>Music Player</div>
-    <button class="upload-btn" id="uploadBtn"><i class="fas fa-plus"></i> 新增歌曲</button>
   </div>
 
   <!-- Album Art -->
@@ -657,7 +670,9 @@
     <!-- Track Info -->
     <div id="trackInfoArea">
       <div class="track-title-wrap">
-        <span id="trackName" class="no-animation">—</span>
+        <div class="marquee no-animation">
+          <span id="trackName">—</span>
+        </div>
       </div>
       <div id="trackArtist">—</div>
     </div>
@@ -723,12 +738,10 @@
 
     <!-- Playlist Actions -->
     <div id="playlistActions">
-      <button class="action-btn" id="uploadBtn2"><i class="fas fa-folder-open"></i>新增歌曲</button>
-      <button class="action-btn" id="loadLrcBtn" title="選取音樂資料夾，一次載入所有 .lrc 歌詞"><i class="fas fa-align-left"></i>載入歌詞</button>
+      <button class="action-btn" id="uploadBtn2"><i class="fas fa-plus"></i>新增歌曲</button>
       <button class="action-btn danger" id="clearBtn"><i class="fas fa-trash-can"></i>清除</button>
     </div>
 
-    <div id="lrcLoadMsg" style="text-align:center;font-size:12px;color:var(--purple-lt);padding:4px 0 0;min-height:18px;"></div>
     <div id="tabContent">
       <!-- Playlist Tab -->
       <div class="tab-panel active" id="panel-playlist">
@@ -747,7 +760,6 @@
 </div>
 
 <input type="file" id="fileInput" accept="audio/*,.lrc" multiple>
-<input type="file" id="lrcFolderInput" accept=".lrc" multiple webkitdirectory>
 
 <script>
 // ─────────────────────────────────────────────────────────────
@@ -798,6 +810,7 @@ var audio            = document.createElement('audio');
 audio.preload = 'auto';
 document.body.appendChild(audio);
 var trackNameEl      = document.getElementById('trackName');
+var marqueeEl        = document.querySelector('.marquee');
 var trackArtistEl    = document.getElementById('trackArtist');
 var playPauseButton  = document.getElementById('playPauseButton');
 var prevButton       = document.getElementById('prevButton');
@@ -901,18 +914,17 @@ function updateTrackInfo() {
 }
 
 function setTrackDisplay(title, artist) {
-  trackNameEl.textContent = title || '—';
+  trackNameEl.textContent   = title  || '—';
   trackArtistEl.textContent = artist || '—';
+}
 
-  // Marquee: only animate if text overflows
-  requestAnimationFrame(() => {
-    const wrap = trackNameEl.parentElement;
-    if (trackNameEl.scrollWidth > wrap.clientWidth + 4) {
-      trackNameEl.classList.add('scrolling');
-    } else {
-      trackNameEl.classList.remove('scrolling');
-    }
-  });
+// 完全複製參考作品的動畫控制方式
+function toggleAnimation(isPlaying) {
+  if (isPlaying) {
+    marqueeEl.classList.remove('no-animation'); // 移除 → 動畫重啟
+  } else {
+    marqueeEl.classList.add('no-animation');    // 加入 → 動畫停止
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1119,14 +1131,8 @@ function loadLyrics(src, baseName) {
   fetchText(lrcPath, txt => { renderLyrics(parseLRC(txt)); hideLrcHint(); });
 }
 
-function showLrcHint() {
-  const msg = document.getElementById('lrcLoadMsg');
-  if (msg) msg.innerHTML = '<i class="fas fa-circle-info"></i> 本機模式：請按「載入歌詞」選取資料夾';
-}
-function hideLrcHint() {
-  const msg = document.getElementById('lrcLoadMsg');
-  if (msg) msg.textContent = '';
-}
+function showLrcHint() { /* lrcLoadMsg removed */ }
+function hideLrcHint() { /* lrcLoadMsg removed */ }
 
 // ─────────────────────────────────────────────────────────────
 //  Disc / Face animation
@@ -1160,12 +1166,14 @@ audio.addEventListener('play', () => {
   playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
   setPlayingVisuals(true);
   updatePlaylistStyles();
+  toggleAnimation(true);
 });
 
 audio.addEventListener('pause', () => {
   playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
   setPlayingVisuals(false);
   updatePlaylistStyles();
+  toggleAnimation(false);
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -1317,7 +1325,6 @@ var fileInput = document.getElementById('fileInput');
 
 function triggerUpload() { fileInput.click(); }
 
-document.getElementById('uploadBtn').addEventListener('click',  triggerUpload);
 document.getElementById('uploadBtn2').addEventListener('click', triggerUpload);
 
 fileInput.addEventListener('change', function(e) {
@@ -1353,45 +1360,6 @@ fileInput.addEventListener('change', function(e) {
   }
 
   fileInput.value = '';
-});
-
-// ─────────────────────────────────────────────────────────────
-//  載入歌詞資料夾（解決 file:// 協議無法 XHR 讀取本機文字檔的問題）
-//  使用者選取「含有 .lrc 的資料夾」後，FileReader 直接讀取 File 物件，
-//  不需要任何伺服器，100% 在本機執行。
-// ─────────────────────────────────────────────────────────────
-var lrcFolderInput = document.getElementById('lrcFolderInput');
-
-document.getElementById('loadLrcBtn').addEventListener('click', () => {
-  lrcFolderInput.click();
-});
-
-lrcFolderInput.addEventListener('change', function(e) {
-  const files = Array.from(e.target.files).filter(f => /\.lrc$/i.test(f.name));
-  if (files.length === 0) return;
-
-  var loaded = 0;
-  files.forEach(f => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const base = getBaseName(f.name);
-      uploadedLrcMap[base] = ev.target.result;
-      loaded++;
-      // 全部讀完後，若目前有歌曲則重新套用歌詞
-      if (loaded === files.length) {
-        const msg = document.getElementById('lrcLoadMsg');
-        if (msg) { msg.innerHTML = '<i class="fas fa-circle-check"></i> 已載入 ' + loaded + ' 首歌詞'; setTimeout(() => { if(!isFileProtocol) msg.textContent=''; }, 3000); }
-        // 重新載入目前歌曲的歌詞
-        const src = playlist[currentTrack] || '';
-        const filename = getFileName(src);
-        const baseName = getBaseName(filename);
-        loadLyrics(src, baseName);
-      }
-    };
-    reader.readAsText(f, 'UTF-8');
-  });
-
-  lrcFolderInput.value = '';
 });
 
 // ─────────────────────────────────────────────────────────────
